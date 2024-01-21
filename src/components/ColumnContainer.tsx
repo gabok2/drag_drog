@@ -35,7 +35,7 @@ export function ColumnContainer({ column, tasks }: Board) {
   };
 
   const tasksIds = useMemo(() => {
-    return tasks.map((task) => task.id);
+    return tasks.map((task: { id: any }) => task.id);
   }, [tasks]);
 
   return (
@@ -56,7 +56,7 @@ export function ColumnContainer({ column, tasks }: Board) {
         className="flex flex-col gap-2 mt-2 overflow-y-auto overflow-x-hidden  "
       >
         <SortableContext items={tasksIds}>
-          {tasks?.map((task) => (
+          {tasks?.map((task: { id: any }) => (
             <>
               <TaskCard key={task.id} task={task} />
             </>
