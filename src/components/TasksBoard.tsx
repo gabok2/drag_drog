@@ -221,14 +221,22 @@ export function TaskBoard() {
   const [activeTask, setActiveTask] = useState(null);
 
   const sensors = useSensors(
-    useSensor(TouchSensor),
     useSensor(MouseSensor, {
+      // Require the mouse to move by 10 pixels before activating.
+      // Slight distance prevents sortable logic messing with
+      // interactive elements in the handler toolbar component.
       activationConstraint: {
         distance: 10,
       },
+    }),
+    useSensor(TouchSensor, {
+      // Press delay of 250ms, with tolerance of 5px of movement.
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
     })
   );
-
   function onDragStart(event: DragStartEvent) {
     if (event.active.data.current?.type === "Task") {
       setActiveTask(event.active.data.current.task);
