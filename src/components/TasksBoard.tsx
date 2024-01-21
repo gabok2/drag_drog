@@ -21,7 +21,6 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { Column, Task } from "@/types";
 
 export function TaskBoard() {
-  const sensors = useSensors(useSensor(TouchSensor));
   const { width, height, isLoaded } = useWindowDimensions();
   const defaultCols: Column[] = [
     {
@@ -220,6 +219,15 @@ export function TaskBoard() {
   const [columns, setColumns] = useState<Column[]>(defaultCols);
   const [tasks, setTasks] = useState<Task[]>(defaultTasks);
   const [activeTask, setActiveTask] = useState(null);
+
+  const sensors = useSensors(
+    useSensor(TouchSensor),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
+  );
 
   function onDragStart(event: DragStartEvent) {
     if (event.active.data.current?.type === "Task") {
